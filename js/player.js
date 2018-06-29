@@ -267,6 +267,34 @@
       }
     }
 
+    
+    for (var i = 0; i < COMPUTER_ACTIONS.length; i++) {
+      var action = COMPUTER_ACTIONS[i];
+      if (this.heldButtons[action]) {
+        if (action.match(/spells/)) {
+          var spellIndex = action.slice(6);
+          wizard.actions["spells"][spellIndex] = this.cyclePress(wizard.actions["spells"][spellIndex]);
+        } else {
+          wizard.actions[action] = this.cyclePress(wizard.actions[action]);
+        }
+        if (action === "left") {
+          wizard.accelX(-boost);
+          wizard.faceDir("left");
+        } else if (action === "right") {
+          wizard.accelX(boost);
+          wizard.faceDir("right");
+        }
+      } else {
+        if (action.match(/spells/)) {
+          var spellIndex = action.slice(6);
+          wizard.actions["spells"][spellIndex] = this.cycleRelease(wizard.actions["spells"][spellIndex]);
+        } else {
+          wizard.actions[action] = this.cycleRelease(wizard.actions[action]);
+        }
+      }
+    }
+
   };
 
 })();
+
